@@ -1,7 +1,7 @@
 import { StyleSheet, View } from "react-native";
-import { RegistrationScreen } from "./src/Screens/RegistrationScreen/RegistrationScreen";
-import { LoginScreen } from "./src/Screens/LoginScreen/LoginScreen";
-import { BackgroundImage } from "./src/Screens/BackgroundImage/BackgroundImage";
+import { RegistrationScreen } from "./src/Screens/RegistrationScreen";
+import { LoginScreen } from "./src/Screens/LoginScreen";
+import { BackgroundImage } from "./src/BackgroundImage/BackgroundImage";
 import backgroundSource from "./src/Images/background.jpg";
 import { useFonts } from "expo-font";
 
@@ -17,8 +17,8 @@ export default function App() {
   return (
     <View style={styles.container}>
       <BackgroundImage imageSource={backgroundSource}>
-        <RegistrationScreen fontLoaded={fontsLoaded} />
-        {/* <LoginScreen fontLoaded={fontsLoaded}/> */}
+        {/* <RegistrationScreen fontLoaded={fontsLoaded} /> */}
+        <LoginScreen fontLoaded={fontsLoaded}/>
       </BackgroundImage>
     </View>
   );
@@ -27,5 +27,5 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
+   },
 });

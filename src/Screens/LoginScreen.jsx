@@ -1,4 +1,3 @@
-import React from "react";
 import {
   View,
   Text,
@@ -6,22 +5,42 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { useState } from "react";
 
 export const LoginScreen = ({ fontLoaded }) => {
+  const [activeInput, setActiveInput] = useState(null);
+  const handleInputFocus = (inputName) => {
+    setActiveInput(inputName);
+  };
+
+  const handleInputBlur = () => {
+    setActiveInput(null);
+  };
+
   return (
     <View style={styles.container}>
-      <Text
-        style={[styles.title, fontLoaded && { fontFamily: "Roboto-Regular" }]}
-      >
-        Увійти
-      </Text>
+      <Text style={[styles.title, fontLoaded && styles.titleFont]}>Увійти</Text>
       <TextInput
-        style={[styles.input, fontLoaded && { fontFamily: "Roboto-Regular" }]}
+        style={[
+          styles.input,
+          fontLoaded && styles.titleFont,
+          { width: "100%" },
+          activeInput === "email" && styles.activeInput,
+        ]}
+        onFocus={() => handleInputFocus("email")}
+        onBlur={handleInputBlur}
         placeholder="Адреса електронної пошти"
       />
       <View style={styles.passwordContainer}>
         <TextInput
-          style={[styles.input, fontLoaded && { fontFamily: "Roboto-Regular" }]}
+          style={[
+            styles.input,
+            fontLoaded && styles.titleFont,
+            { width: "100%" },
+            activeInput === "password" && styles.activeInput,
+          ]}
+          onFocus={() => setActiveInput("password")}
+          onBlur={() => setActiveInput(null)}
           placeholder="Пароль"
           secureTextEntry={true}
         />
@@ -44,7 +63,6 @@ export const LoginScreen = ({ fontLoaded }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#ffffff",
-    marginTop: "auto",
     alignItems: "center",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
@@ -57,8 +75,10 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     marginBottom: 20,
   },
+  titleFont: {
+    fontFamily: "Roboto-Regular",
+  },
   input: {
-    width: 343,
     height: 50,
     borderColor: "rgba(232, 232, 232, 1)",
     borderWidth: 1,
@@ -67,12 +87,15 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(246, 246, 246, 1)",
     borderRadius: 5,
   },
+  activeInput: {
+    borderColor: "rgba(255, 108, 0, 1)",
+    backgroundColor: "rgba(255, 255, 255, 1)",
+  },
   passwordContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
   passwordButton: {
-    backgroundColor: "rgba(246, 246, 246, 1)",
     padding: 8,
     borderRadius: 5,
     position: "absolute",
