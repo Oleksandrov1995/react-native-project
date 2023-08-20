@@ -4,12 +4,21 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
 
 export const RegistrationScreen = ({ fontLoaded }) => {
   const [activeInput, setActiveInput] = useState(null);
+  const [login, setLogin] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleInputFocus = (inputName) => {
     setActiveInput(inputName);
   };
@@ -18,8 +27,22 @@ export const RegistrationScreen = ({ fontLoaded }) => {
     setActiveInput(null);
   };
 
+  const handleFormSubmit = () => {
+    console.log("Login:", login);
+    console.log("Email:", email);
+    console.log("Password:", password);
+    setLogin("")
+    setEmail("");
+    setPassword("");
+  };
+
   return (
-    <View style={styles.container}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 0}
+      >
       <View style={styles.userImageContainer}>
         <TouchableOpacity style={styles.imageAddButton}>
           <AntDesign
@@ -41,6 +64,8 @@ export const RegistrationScreen = ({ fontLoaded }) => {
         ]}
         onFocus={() => handleInputFocus("login")}
         onBlur={handleInputBlur}
+        value={login}
+        onChangeText={setLogin}
         placeholder="Логін"
       />
       <TextInput
@@ -52,6 +77,8 @@ export const RegistrationScreen = ({ fontLoaded }) => {
         ]}
         onFocus={() => handleInputFocus("email")}
         onBlur={handleInputBlur}
+        value={email}
+        onChangeText={setEmail}
         placeholder="Адреса електронної пошти"
       />
       <View style={styles.passwordContainer}>
@@ -64,20 +91,24 @@ export const RegistrationScreen = ({ fontLoaded }) => {
           ]}
           onFocus={() => setActiveInput("password")}
           onBlur={() => setActiveInput(null)}
+          value={password}
+          onChangeText={setPassword}
           placeholder="Пароль"
-          secureTextEntry={true}
+          secureTextEntry={!showPassword}
         />
-        <TouchableOpacity style={styles.passwordButton}>
-          <Text style={styles.passwordButtonText}>Показати</Text>
+        <TouchableOpacity style={styles.passwordButton} onPress={() => setShowPassword(!showPassword)}>
+          <Text style={styles.passwordButtonText}>{showPassword?"Приховати":"Показати"}</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.registerButton}>
+      <TouchableOpacity style={styles.registerButton}
+      onPress={handleFormSubmit}>
         <Text style={styles.registerbuttonText}>Зареєструватися</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.enterButton}>
         <Text style={styles.enterButtonText}>Вже є акаунт? Увійти</Text>
       </TouchableOpacity>
-    </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 

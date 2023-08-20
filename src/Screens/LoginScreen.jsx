@@ -4,11 +4,19 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { useState } from "react";
 
 export const LoginScreen = ({ fontLoaded }) => {
   const [activeInput, setActiveInput] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
   const handleInputFocus = (inputName) => {
     setActiveInput(inputName);
   };
@@ -17,46 +25,70 @@ export const LoginScreen = ({ fontLoaded }) => {
     setActiveInput(null);
   };
 
+  const handleFormSubmit = () => {
+    console.log("Email:", email);
+    console.log("Password:", password);
+    setEmail("");
+    setPassword("");
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={[styles.title, fontLoaded && styles.titleFont]}>Увійти</Text>
-      <TextInput
-        style={[
-          styles.input,
-          fontLoaded && styles.titleFont,
-          { width: "100%" },
-          activeInput === "email" && styles.activeInput,
-        ]}
-        onFocus={() => handleInputFocus("email")}
-        onBlur={handleInputBlur}
-        placeholder="Адреса електронної пошти"
-      />
-      <View style={styles.passwordContainer}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : null}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 0}
+      >
+        <Text style={[styles.title, fontLoaded && styles.titleFont]}>
+          Увійти
+        </Text>
         <TextInput
           style={[
             styles.input,
             fontLoaded && styles.titleFont,
             { width: "100%" },
-            activeInput === "password" && styles.activeInput,
+            activeInput === "email" && styles.activeInput,
           ]}
-          onFocus={() => setActiveInput("password")}
-          onBlur={() => setActiveInput(null)}
-          placeholder="Пароль"
-          secureTextEntry={true}
+          onFocus={() => handleInputFocus("email")}
+          onBlur={handleInputBlur}
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Адреса електронної пошти"
         />
-        <TouchableOpacity style={styles.passwordButton}>
-          <Text style={styles.passwordButtonText}>Показати</Text>
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={[
+              styles.input,
+              fontLoaded && styles.titleFont,
+              { width: "100%" },
+              activeInput === "password" && styles.activeInput,
+            ]}
+            onFocus={() => setActiveInput("password")}
+            onBlur={() => setActiveInput(null)}
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Пароль"
+            secureTextEntry={!showPassword}
+          />
+          <TouchableOpacity
+            style={styles.passwordButton}
+            onPress={() => setShowPassword(!showPassword)}
+          >
+            <Text style={styles.passwordButtonText}>
+              {showPassword ? "Приховати" : "Показати"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={styles.loginButton} onPress={handleFormSubmit}>
+          <Text style={styles.loginButtonText}>Увійти</Text>
         </TouchableOpacity>
-      </View>
-      <TouchableOpacity style={styles.loginButton}>
-        <Text style={styles.loginButtonText}>Увійти</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.registerButton}>
-        <Text style={styles.registerButtonText}>
-          Немає акаунту? Зареєструватися
-        </Text>
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity style={styles.registerButton}>
+          <Text style={styles.registerButtonText}>
+            Немає акаунту? Зареєструватися
+          </Text>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -66,7 +98,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    paddingBottom: 145,
+    paddingBottom: 111,
     paddingTop: 32,
     paddingHorizontal: 16,
   },
