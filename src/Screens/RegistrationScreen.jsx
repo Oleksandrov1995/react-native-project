@@ -11,6 +11,10 @@ import {
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useState } from "react";
+import { useNavigation } from '@react-navigation/native';
+import { BackgroundImage } from "../Components/BackgroundImage";
+import backgroundSource from "../Images/background.jpg";
+
 
 export const RegistrationScreen = ({ fontLoaded }) => {
   const [activeInput, setActiveInput] = useState(null);
@@ -18,6 +22,8 @@ export const RegistrationScreen = ({ fontLoaded }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigation = useNavigation();
+
 
   const handleInputFocus = (inputName) => {
     setActiveInput(inputName);
@@ -34,15 +40,18 @@ export const RegistrationScreen = ({ fontLoaded }) => {
     setLogin("")
     setEmail("");
     setPassword("");
+    navigation.navigate('PostsScreen')
   };
 
   return (
+    <BackgroundImage imageSource={backgroundSource}>
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 0}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={-100}
       >
+      < View style={styles.container}>
+        
       <View style={styles.userImageContainer}>
         <TouchableOpacity style={styles.imageAddButton}>
           <AntDesign
@@ -104,11 +113,13 @@ export const RegistrationScreen = ({ fontLoaded }) => {
       onPress={handleFormSubmit}>
         <Text style={styles.registerbuttonText}>Зареєструватися</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.enterButton}>
+      <TouchableOpacity style={styles.enterButton} onPress={() => navigation.navigate('LoginScreen')}>
         <Text style={styles.enterButtonText}>Вже є акаунт? Увійти</Text>
       </TouchableOpacity>
+      </View>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
+    </BackgroundImage>
   );
 };
 

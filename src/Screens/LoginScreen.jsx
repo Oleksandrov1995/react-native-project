@@ -10,12 +10,16 @@ import {
   Platform,
 } from "react-native";
 import { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { BackgroundImage } from "../Components/BackgroundImage";
+import backgroundSource from "../Images/background.jpg";
 
 export const LoginScreen = ({ fontLoaded }) => {
   const [activeInput, setActiveInput] = useState(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigation = useNavigation();
 
   const handleInputFocus = (inputName) => {
     setActiveInput(inputName);
@@ -30,65 +34,75 @@ export const LoginScreen = ({ fontLoaded }) => {
     console.log("Password:", password);
     setEmail("");
     setPassword("");
+    navigation.navigate("PostsScreen");
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === "ios" ? "padding" : null}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 40 : 0}
-      >
-        <Text style={[styles.title, fontLoaded && styles.titleFont]}>
-          Увійти
-        </Text>
-        <TextInput
-          style={[
-            styles.input,
-            fontLoaded && styles.titleFont,
-            { width: "100%" },
-            activeInput === "email" && styles.activeInput,
-          ]}
-          onFocus={() => handleInputFocus("email")}
-          onBlur={handleInputBlur}
-          value={email}
-          onChangeText={setEmail}
-          placeholder="Адреса електронної пошти"
-        />
-        <View style={styles.passwordContainer}>
-          <TextInput
-            style={[
-              styles.input,
-              fontLoaded && styles.titleFont,
-              { width: "100%" },
-              activeInput === "password" && styles.activeInput,
-            ]}
-            onFocus={() => setActiveInput("password")}
-            onBlur={() => setActiveInput(null)}
-            value={password}
-            onChangeText={setPassword}
-            placeholder="Пароль"
-            secureTextEntry={!showPassword}
-          />
-          <TouchableOpacity
-            style={styles.passwordButton}
-            onPress={() => setShowPassword(!showPassword)}
-          >
-            <Text style={styles.passwordButtonText}>
-              {showPassword ? "Приховати" : "Показати"}
+    <BackgroundImage imageSource={backgroundSource}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={-80}
+        >
+          <View style={styles.container}>
+            <Text style={[styles.title, fontLoaded && styles.titleFont]}>
+              Увійти
             </Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={styles.loginButton} onPress={handleFormSubmit}>
-          <Text style={styles.loginButtonText}>Увійти</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.registerButton}>
-          <Text style={styles.registerButtonText}>
-            Немає акаунту? Зареєструватися
-          </Text>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+            <TextInput
+              style={[
+                styles.input,
+                fontLoaded && styles.titleFont,
+                { width: "100%" },
+                activeInput === "email" && styles.activeInput,
+              ]}
+              onFocus={() => handleInputFocus("email")}
+              onBlur={handleInputBlur}
+              value={email}
+              onChangeText={setEmail}
+              placeholder="Адреса електронної пошти"
+            />
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={[
+                  styles.input,
+                  fontLoaded && styles.titleFont,
+                  { width: "100%" },
+                  activeInput === "password" && styles.activeInput,
+                ]}
+                onFocus={() => setActiveInput("password")}
+                onBlur={() => setActiveInput(null)}
+                value={password}
+                onChangeText={setPassword}
+                placeholder="Пароль"
+                secureTextEntry={!showPassword}
+              />
+              <TouchableOpacity
+                style={styles.passwordButton}
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <Text style={styles.passwordButtonText}>
+                  {showPassword ? "Приховати" : "Показати"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={handleFormSubmit}
+            >
+              <Text style={styles.loginButtonText}>Увійти</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.registerButton}
+              onPress={() => navigation.navigate("RegistrationScreen")}
+            >
+              <Text style={styles.registerButtonText}>
+                Немає акаунту? Зареєструватися
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </BackgroundImage>
   );
 };
 
