@@ -1,42 +1,25 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import {
-  LogOutIcon,
-  PostsScreenIcon,
-  CreatePostIcon,
-  ProfileScreenIcon,
-} from "../Components/Icons";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 
-export const PostsScreen = ({ fontLoaded }) => {
-    const navigation = useNavigation();
-  const handleLogout = () => {
-    navigation.navigate('LoginScreen')
-  };
+import { Post } from "../Components/Post";
+import { UserAvatar } from "../Components/User/UserAvatar";
+import { UserName } from "../Components/User/UserName";
+import { UserEmail } from "../Components/User/UserEmail";
+
+export const PostsScreen = () => {
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
-        
-
-      <View style={styles.header}>
-        <Text style={[styles.title, fontLoaded && styles.titleFont]}>Публікації</Text>
-
-        <TouchableOpacity style={styles.logOutButton} onPress={handleLogout}>
-          <LogOutIcon width={24} height={24} color="none" />
-        </TouchableOpacity>
+      <View style={styles.user}>
+        <UserAvatar style={styles.avatar} />
+        <View style={styles.userInfo}>
+          <UserName style={styles.userName} />
+          <UserEmail style={styles.userEmail} />
+        </View>
       </View>
-
-      <View style={styles.navMenu}>
-        <TouchableOpacity onPress={() => navigation.navigate('PostsScreen')}>
-          <PostsScreenIcon width={40} height={40} color="none" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.activeIcon} onPress={() => navigation.navigate("CreatePostsScreen")}>
-        <CreatePostIcon width={40} height={40} fill="#ffffff" />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate("ProfileScreen")}>
-        <ProfileScreenIcon width={40} height={40} color="#212121" fill = "none" />
-        </TouchableOpacity>
-      </View>
+      <Post />
     </View>
   );
 };
@@ -44,48 +27,29 @@ export const PostsScreen = ({ fontLoaded }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#fff",
+    padding: 20,
   },
-  header: {
+  user: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(255, 255, 255, 1)",
-    borderBottomWidth: 1,
-    borderBottomColor: "#BDBDBD",
-    paddingTop: 41,
-    paddingRight: 16,
-    paddingBottom: 11,
-  
+    marginBottom: 32,
   },
-  title: {
-    color: "rgba(33, 33, 33, 1)",
-    fontSize: 17,
-    justifyContent: "center",
-    lineHeight: 22,
+  avatar: {
+    width: 60,
+    height: 60,
   },
-  logOutButton: { position: "absolute", right: 16,
-bottom:11 },
-  navMenu: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    borderTopWidth: 1,
-    borderTopColor: "#BDBDBD",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    paddingTop: 9,
-    paddingRight: 81,
-    paddingBottom: 22,
-    paddingLeft: 81,
+  userInfo: {
+    flexDirection: "column",
+    marginLeft: 8,
   },
-  activeIcon:{
-    width: 70,
-    height: 40,
-    backgroundColor: "#FF6C00",
-    alignContent: "center",
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center", 
-  }
+  userName: {
+    fontWeight: 700,
+    fontSize: 13,
+  },
+  userEmail: {
+    color: "rgba(33, 33, 33, 0.8)",
+    fontWeight: 400,
+    fontSize: 11,
+  },
 });

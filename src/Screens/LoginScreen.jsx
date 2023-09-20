@@ -34,7 +34,7 @@ export const LoginScreen = ({ fontLoaded }) => {
     console.log("Password:", password);
     setEmail("");
     setPassword("");
-    navigation.navigate("PostsScreen");
+    navigation.navigate("BottomNavigator");
   };
 
   return (

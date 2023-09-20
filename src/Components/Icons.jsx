@@ -1,100 +1,6 @@
 import React from "react";
 import Svg, { Path, SvgXml } from "react-native-svg";
 
-export const LogOutIcon = ({ width, height, color }) => (
-  <Svg width={width} height={height} viewBox="0 0 24 24" fill={color}>
-    <Path
-      d="M10 22H5C3.89543 22 3 21.1046 3 20V4C3 2.89543 3.89543 2 5 2H10"
-      stroke="#BDBDBD"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <Path
-      d="M17 16L21 12L17 8"
-      stroke="#BDBDBD"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <Path
-      d="M21 12H9"
-      stroke="#BDBDBD"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </Svg>
-);
-
-export const PostsScreenIcon = ({ width, height, color }) => (
-  <Svg width={width} height={height} viewBox="0 0 40 40" fill={color}>
-    <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M11 11H18V18H11V11Z"
-      stroke="#212121"
-      stroke-opacity="0.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M22 11H29V18H22V11Z"
-      stroke="#212121"
-      stroke-opacity="0.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M22 22H29V29H22V22Z"
-      stroke="#212121"
-      stroke-opacity="0.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M11 22H18V29H11V22Z"
-      stroke="#212121"
-      stroke-opacity="0.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </Svg>
-);
-
-export const CreatePostIcon = ({ width, height, fill }) => (
-  <Svg width={width} height={height} viewBox="0 0 40 40" fill={fill}>
-   
-     <Path fill-rule="evenodd" clip-rule="evenodd" d="M20.5 13.5H19.5V19.5H13.5V20.5H19.5V26.5H20.5V20.5H26.5V19.5H20.5V13.5Z" fill={fill} fill-opacity="0.8"/>
-    
-   
-  </Svg>
-);
-
-export const ProfileScreenIcon = ({ width, height, color, fill }) => (
-  <Svg width={width} height={height} viewBox="0 0 40 40" fill={fill}>
-    <Path
-      d="M28 29V27C28 24.7909 26.2091 23 24 23H16C13.7909 23 12 24.7909 12 27V29"
-      stroke={color}
-      stroke-opacity="0.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <Path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
-      d="M20 19C22.2091 19 24 17.2091 24 15C24 12.7909 22.2091 11 20 11C17.7909 11 16 12.7909 16 15C16 17.2091 17.7909 19 20 19Z"
-      stroke={color}
-      stroke-opacity="0.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </Svg>
-);
-
 const svgDeletePost = `
 <svg width="70" height="40" viewBox="0 0 70 40" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_38_39)">
@@ -140,7 +46,3 @@ const svgPlace = `
 `;
 
 export const PlaceIcon = () => <SvgXml xml={svgPlace} />;
-
-
-
-
