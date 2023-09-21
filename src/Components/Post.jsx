@@ -11,6 +11,7 @@ export const Post = () => {
       <FlatList
         data={posts}
         keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <View>
             <Image style={styles.image} source={{ uri: item.image }} />
@@ -43,6 +44,7 @@ export const Post = () => {
             </View>
           </View>
         )}
+        
       ></FlatList>
     </View>
   );

@@ -21,9 +21,9 @@ export const ProfileScreen = () => {
         <View style={styles.logOutBtn}>
           <LogOutBtn />
         </View>
-        <ScrollView>
+        
           <Post />
-        </ScrollView>
+      
       </View>
     </BackgroundImage>
   );
