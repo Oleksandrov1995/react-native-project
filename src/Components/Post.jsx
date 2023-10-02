@@ -3,13 +3,16 @@ import { useState } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { EvilIcons } from "@expo/vector-icons";
-import posts from "../data/posts.json";
+import { postData } from "../data/post.js";
+import { useNavigation } from "@react-navigation/native";
+
 export const Post = () => {
+  const navigation = useNavigation();
   const [likes, setLikes] = useState({});
   return (
     <View style={styles.container}>
       <FlatList
-        data={posts}
+        data={postData}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
@@ -18,10 +21,19 @@ export const Post = () => {
             <View>
               <Text style={styles.title}>{item.title}</Text>
               <View style={styles.detailsContainer}>
-                <Text style={styles.comments}>
-                  <EvilIcons name="comment" size={24} color="black" />
-                  {item.comments}
-                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("CommentsScreen", {
+                     comments: item.comments,
+                     image: item.image,
+                    });
+                  }}
+                >
+                  <Text style={styles.comments}>
+                    <EvilIcons name="comment" size={24} color="black" />
+                    {item.comments.length}
+                  </Text>
+                </TouchableOpacity>
 
                 <TouchableOpacity
                   onPress={() => {
@@ -36,15 +48,23 @@ export const Post = () => {
                     {likes[item.id] ? likes[item.id] : 0}
                   </Text>
                 </TouchableOpacity>
-                <Text style={styles.location}>
-                  <EvilIcons name="location" size={24} color="black" />
-                  {item.location}
-                </Text>
+                <TouchableOpacity style={styles.location}
+                  onPress={() => {
+                    navigation.navigate("MapScreen", {
+                      latitude: item.locationСoords.split(", ")[0],
+                      longitude: item.locationСoords.split(", ")[1],
+                    });
+                  }}
+                >
+                  <Text style={styles.location}>
+                    <EvilIcons name="location" size={24} color="black" />
+                    {item.location}
+                  </Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
         )}
-        
       ></FlatList>
     </View>
   );
@@ -78,4 +98,3 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
 });
-

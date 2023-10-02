@@ -3,43 +3,44 @@ import { View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { CreatePostsScreen } from "../Screens/CreatePostsScreen";
 import { ProfileScreen } from "../Screens/ProfileScreen";
-import {PostsScreen} from '../Screens/PostsScreen.jsx'
+import { PostsScreen } from "../Screens/PostsScreen.jsx";
 import { BackBtn } from "../Components/BackBtn";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import { LogOutBtn } from "../Components/LogOutBtn";
+import { CommentsScreen } from "../Screens/CommentsScreen";
+import { MapScreen } from "../Screens/MapScreen";
+
 const BottomTab = createBottomTabNavigator();
 
 export const BottomNavigator = () => {
   return (
-
-  
-   
     <BottomTab.Navigator
-    screenOptions={({ route }) => ({
-      tabBarShowLabel: false,
-      tabBarIcon: ({color, size }) => {
-        let iconName;
+      screenOptions={({ route }) => ({
+        tabBarShowLabel: false,
+        tabBarIcon: ({ color, size }) => {
+          let iconName;
 
-        if (route.name === "PostsScreen") {
-          iconName = "ios-grid-outline";
-        } else if (route.name === "CreatePostsScreen") {
-          iconName = "add"
-        } else if (route.name === "ProfileScreen") {
-          iconName = "person-outline";
-        }
-        return <Ionicons name={iconName} size={size} color={color} />;
-      },
-     
-      tabBarActiveTintColor: "#FF6C00",
-      tabBarInactiveTintColor: "#212121",
-      tabBarItemStyle: styles.tabBarItemStyle,
-      tabBarStyle: {
-        ...styles.tabBarStyle,
-        height: route.name === 'CreatePostsScreen' ? 0 : styles.tabBarStyle.height,
-      },
-    })}
-  >
-       <BottomTab.Screen
+          if (route.name === "PostsScreen") {
+            iconName = "ios-grid-outline";
+          } else if (route.name === "CreatePostsScreen") {
+            iconName = "add";
+          } else if (route.name === "ProfileScreen") {
+            iconName = "person-outline";
+          }
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+
+        tabBarActiveTintColor: "#FF6C00",
+        tabBarInactiveTintColor: "#212121",
+        tabBarItemStyle: styles.tabBarItemStyle,
+        tabBarStyle: {
+          ...styles.tabBarStyle,
+          height:
+            route.name === "CreatePostsScreen" ? 0 : styles.tabBarStyle.height,
+        },
+      })}
+    >
+      <BottomTab.Screen
         name="PostsScreen"
         component={PostsScreen}
         options={{
@@ -53,7 +54,30 @@ export const BottomNavigator = () => {
             fontWeight: 500,
           },
           headerTitleAlign: "center",
-          headerRight: () => <View style={styles.logOutBtn}><LogOutBtn  /></View>,
+          headerRight: () => (
+            <View style={styles.logOutBtn}>
+              <LogOutBtn />
+            </View>
+          ),
+        }}
+      />
+      <BottomTab.Screen
+        name="CommentsScreen"
+        component={CommentsScreen}
+        options={{
+          title: "Коментарі",
+          tabBarVisible: true,
+          headerStyle: {
+            backgroundColor: "#rgba(255, 255, 255, 1)",
+          },
+          headerTintColor: "rgba(33, 33, 33, 1)",
+          headerTitleStyle: {
+            fontSize: 17,
+            fontWeight: 500,
+          },
+          headerTitleAlign: "center",
+          headerLeft: () => <BackBtn />,
+          tabBarButton: () => null,
         }}
       />
       <BottomTab.Screen
@@ -72,7 +96,25 @@ export const BottomNavigator = () => {
           },
           headerTitleAlign: "center",
           headerLeft: () => <BackBtn />,
-         
+        }}
+      />
+      <BottomTab.Screen
+        name="MapScreen"
+        component={MapScreen}
+        options={{
+          tabBarVisible: false,
+          title: "Місце створення фотографії",
+          headerStyle: {
+            backgroundColor: "#rgba(255, 255, 255, 1)",
+          },
+          headerTintColor: "rgba(33, 33, 33, 1)",
+          headerTitleStyle: {
+            fontSize: 17,
+            fontWeight: 500,
+          },
+          headerTitleAlign: "center",
+          headerLeft: () => <BackBtn />,
+          tabBarButton: () => null,
         }}
       />
       <BottomTab.Screen
@@ -81,7 +123,6 @@ export const BottomNavigator = () => {
         options={{ headerShown: false }}
       />
     </BottomTab.Navigator>
-  
   );
 };
 const styles = StyleSheet.create({
@@ -92,12 +133,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 9,
     alignItems: "center",
   },
-  tabBarStyle:{
+  tabBarStyle: {
     height: 83,
     alignItems: "center",
     justifyContent: "center",
     paddingTop: 17,
     paddingHorizontal: 82,
   },
-  logOutBtn:{marginRight: 12,}
+  logOutBtn: { marginRight: 12 },
 });
