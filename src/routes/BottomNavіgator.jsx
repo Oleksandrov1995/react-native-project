@@ -16,6 +16,8 @@ export const BottomNavigator = () => {
   return (
     <BottomTab.Navigator
       screenOptions={({ route }) => ({
+        unmountOnBlur:
+          route.name === "CreatePostsScreen" || route.name === "PostsScreen",
         tabBarShowLabel: false,
         tabBarIcon: ({ color, size }) => {
           let iconName;
@@ -36,7 +38,11 @@ export const BottomNavigator = () => {
         tabBarStyle: {
           ...styles.tabBarStyle,
           height:
-            route.name === "CreatePostsScreen" ? 0 : styles.tabBarStyle.height,
+            route.name === "CreatePostsScreen" ||
+            route.name === "MapScreen" ||
+            route.name === "CommentsScreen"
+              ? 0
+              : styles.tabBarStyle.height,
         },
       })}
     >
@@ -66,7 +72,7 @@ export const BottomNavigator = () => {
         component={CommentsScreen}
         options={{
           title: "Коментарі",
-          tabBarVisible: true,
+          tabBarVisible: false,
           headerStyle: {
             backgroundColor: "#rgba(255, 255, 255, 1)",
           },

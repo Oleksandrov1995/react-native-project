@@ -17,12 +17,12 @@ export const CommentsScreen = ({ route }) => {
     <View style={styles.container}>
       
        <Image style={styles.image} source={{ uri: image }} />
-       <View style={styles.commentsContainer}>
+      
       <FlatList
-     
+     style={styles.commentsContainer}
         data={comments}
         renderItem={({ item }) => <Text style={styles.commentsText}>{item}</Text>}
-      /></View>
+      />
         <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
@@ -65,8 +65,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 16,
     marginTop: 'auto',
+    paddingTop:16,
   },
   input: {
     
@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
   button: {
     position: "absolute",
     right: 10,
+    top:24,
     backgroundColor: "rgba(255, 108, 0, 1)",
     borderRadius: 25,
     width: 34,

@@ -14,13 +14,10 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-    
       <MainNavigator />
-     
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

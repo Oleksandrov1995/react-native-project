@@ -24,8 +24,8 @@ export const Post = () => {
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate("CommentsScreen", {
-                     comments: item.comments,
-                     image: item.image,
+                      comments: item.comments,
+                      image: item.image,
                     });
                   }}
                 >
@@ -48,7 +48,8 @@ export const Post = () => {
                     {likes[item.id] ? likes[item.id] : 0}
                   </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.location}
+                <TouchableOpacity
+                  style={styles.location}
                   onPress={() => {
                     navigation.navigate("MapScreen", {
                       latitude: item.locationСoords.split(", ")[0],

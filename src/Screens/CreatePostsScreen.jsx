@@ -31,15 +31,12 @@ export const CreatePostsScreen = () => {
   const [postLocation, setPostLocation] = useState("");
   const [location, setLocation] = useState(null);
   const [isButtonActive, setIsButtonActive] = useState(false);
+  const [isTakingPicture, setIsTakingPicture] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      await MediaLibrary.requestPermissionsAsync();
-
-      setHasPermission(status === "granted");
-      let { locStatus } = await Location.requestForegroundPermissionsAsync();
-      if (locStatus !== "granted") {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
         console.log("Permission to access location was denied");
       }
 
@@ -53,6 +50,15 @@ export const CreatePostsScreen = () => {
   }, []);
 
   useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
+
+      setHasPermission(status === "granted");
+    })();
+  }, []);
+
+  useEffect(() => {
     setIsButtonActive(
       postTitle.trim().length > 0 &&
         postLocation.trim().length > 0 &&
@@ -61,10 +67,12 @@ export const CreatePostsScreen = () => {
   }, [postTitle, postLocation, photoUri]);
 
   const takePicture = async () => {
+    setIsTakingPicture(true);
     if (cameraRef) {
       await cameraRef.resumePreview();
       const { uri } = await cameraRef.takePictureAsync();
       setPhotoUri(uri);
+      setIsTakingPicture(false);
     }
   };
 
@@ -111,20 +119,26 @@ export const CreatePostsScreen = () => {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <KeyboardAvoidingView
-          style={{ flex: 1 }}
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
-          keyboardVerticalOffset={-100}
-        >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={-80}
+      >
+        <View style={styles.container}>
           <View style={styles.cameraContainer}>
             {photoUri ? (
               <Image source={{ uri: photoUri }} style={styles.previewImage} />
             ) : (
               <Camera style={styles.camera} type={type} ref={setCameraRef}>
                 <View style={styles.photoView}>
-                  <TouchableOpacity onPress={takePicture}>
-                    <AddFotoIcon />
+                  <TouchableOpacity
+                    onPress={takePicture}
+                    disabled={isTakingPicture}
+                  >
+                    {isTakingPicture ? (
+                      <ActivityIndicator size="large" color="orange" />
+                    ) : (
+                      <AddFotoIcon />
+                    )}
                   </TouchableOpacity>
                 </View>
               </Camera>
@@ -185,26 +199,23 @@ export const CreatePostsScreen = () => {
             </TouchableOpacity>
           </Animatable.View>
           <View style={styles.navMenu}>
-            {
-              //не можу зробити щоб navMenu не підіймалось разом з клавіатурою
-            }
-
             <TouchableOpacity onPress={deletePost}>
               <DeletePostIcon width={40} height={40} color="none" />
             </TouchableOpacity>
           </View>
-        </KeyboardAvoidingView>
-      </View>
+        </View>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: "100%",
     paddingTop: 32,
     paddingLeft: 16,
     paddingRight: 16,
+    backgroundColor: "#FFFFFF",
   },
   imageContainer: {
     alignItems: "center",
@@ -261,6 +272,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 111,
     alignItems: "center",
+    marginBottom: 150,
   },
   activePublicateButton: {
     marginTop: 32,
@@ -284,14 +296,9 @@ const styles = StyleSheet.create({
   },
 
   navMenu: {
+    marginTop: "auto",
     flexDirection: "row",
     justifyContent: "space-around",
-    borderTopWidth: 1,
-    borderTopColor: "#BDBDBD",
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
     paddingTop: 9,
     paddingRight: 81,
     paddingBottom: 22,
